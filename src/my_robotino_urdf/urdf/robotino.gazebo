@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot>
+
+  <!--Gazebo Camera Plugin-->
+   <gazebo reference="camera">
+    <sensor type="camera" name="camera">
+
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>/my_robotino_urdf/camera</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="hokuyo_link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser/scan</topicName>
+        <frameName>hokuyo_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+    <gazebo>
+      <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
+	<commandTopic>cmd_vel</commandTopic>
+	<odometryTopic>odom</odometryTopic>
+	<odometryFrame>odom</odometryFrame>
+	<odometryRate>20.0</odometryRate>
+	<robotBaseFrame>base_link</robotBaseFrame>
+      </plugin>
+    </gazebo>
+
+    <gazebo reference="base_link">
+      <material>Gazebo/Grey</material>
+      <gravity>true</gravity>
+      <self_collide>false</self_collide>
+      <sensor name='base_contact_sensor' type='contact'>
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <contact>
+          <collision>base_link_collision</collision>
+          <topic>base_bumper</topic>
+        </contact>
+        <plugin name="base_gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+          <frameName>world</frameName>
+          <bumperTopicName>base_bumper</bumperTopicName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+
+
+
+</robot>

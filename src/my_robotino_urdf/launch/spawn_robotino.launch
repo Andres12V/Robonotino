@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Robot pose -->
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0.5"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="-1.5708"/>
+  <!--Gazebo empty world launch file-->
+  <include file="$(find gazebo_ros)/launch/cafe2.launch">
+    	<arg name="debug" value="false" />
+    	<arg name="gui" value="true" />
+    	<arg name="paused" value="false"/>
+    	<arg name="use_sim_time" value="false"/>
+    	<arg name="headless" value="false"/>
+    	<arg name="verbose" value="true"/>
+  </include>
+
+  <!--Robot Description from URDF-->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find my_robotino_urdf)/urdf/robotino.urdf.xacro"/>
+  <param name="use_gui" value="true"/>
+
+  <!--Nodes-->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -param robot_description -model my_robotino_urdf
+	-x $(arg x) -y $(arg y) -z $(arg z)
+	-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robotino_urdf)/rviz/robotino.rviz" required="true"/>
+
+</launch>

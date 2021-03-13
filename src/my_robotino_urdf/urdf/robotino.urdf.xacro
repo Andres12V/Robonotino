@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="robotino">
+  <!-- Include files -->
+  <include filename="$(find my_robotino_urdf)/urdf/robotino_body.xacro"/>
+  <include filename="$(find my_robotino_urdf)/urdf/robotino_hardware.xacro"/>
+   <robotino_body />
+
+  <include filename="$(find my_robotino_urdf)/urdf/robotino.gazebo"/>
+</robot>
