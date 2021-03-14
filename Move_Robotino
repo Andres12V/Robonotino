@@ -1,0 +1,29 @@
+
+%% Comando de prueba para verificar que gire:
+
+rostopic pub /cmd_vel geometry_msgs/Twist "angular: [0.0, 0.0, 0.1] "
+
+
+%% Creación package move_robotino:
+
+cd robotino_ws/src
+catkin_create_pkg move_robotino rospy
+
+%% Luego dentro de roboino_ws/src/move_robotino/src, guardar el archivo move.py de github
+
+
+%% Comando para publicar con python, hacer primero lo siguiente:
+
+cd /robotino_ws/src/move_robotino/src
+chmod +x move.py
+
+%% Hacer lo siguiente desde robotino_ws:
+
+source devel/setup.bash
+
+%% Hacer desde robotino_ws/src:
+
+rosrun move_robotino move.py
+
+
+
