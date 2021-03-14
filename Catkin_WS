@@ -1,0 +1,39 @@
+
+
+%% Creación Workspace:
+
+mkdir -p ~/robotino_ws/src
+cd ~/robotino_ws/
+catkin_make
+
+%% Dentro del Workspace, hacer:
+
+source devel/setup.bash
+
+%% Creacion package 
+
+cd src
+catkin_create_pkg my_robotino_urdf rospy
+
+%% Crear carpeta llamada "urdf" en la carpeta robotino_ws/src/my_robotino_urdf
+%% Copiar los archivos de la carpeta urdf de github dentro de la carpeta creada
+
+%% Crear carpeta llamada "launch" en robotino_ws/src/my_robotino_urdf
+%% Copiar el archivo de la carpeta launch de github dentro de la carpeta creada
+
+%% Crear carpeta llamada "rviz" en robotino_ws/src/my_robotino_urdf
+%% Copiar el archivo de la carpeta rviz de github dentro de la carpeta creada
+
+%% Copiar la carpeta meshes de github dentro de robotino_ws/src/my_robotino_urdf
+
+%% Hacer catkin_make estando en robotino_ws
+
+
+%% Para correr la simulación, estando dentro de robotino_ws, hacer:
+
+source devel/setup.bash
+roslaunch my_robotino_urdf spawn_robotino.launch
+
+%% En caso de que aparezca un error de joint_state_publisher_gui, correr lo siguiente para solucionarlo:
+
+sudo apt install ros-melodic-joint-state-publisher-gui
