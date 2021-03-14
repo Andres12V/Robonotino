@@ -4,3 +4,4 @@
 4. En la ruta opt/ros/melodic/share/gazebo_ros/launch agregar el archivo cafe2.launch (Sudo Nautilus)
 5. Hacer todos los pasos del archivo Catkin_Ws
 6. Hacer los pasos de Move_Robotino
+7. Si puedo bro
