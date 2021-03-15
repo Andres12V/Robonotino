@@ -2,6 +2,7 @@
 
 %% Creación Workspace:
 
+source /opt/ros/melodic/setup.bash
 mkdir -p ~/robotino_ws/src
 cd ~/robotino_ws/
 catkin_make
