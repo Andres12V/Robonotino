@@ -12,7 +12,7 @@ catkin_create_pkg move_robotino rospy
 
 %% Hacer catkin_make estando en robotino_ws
 
-%% Luego dentro de roboino_ws/src/move_robotino/src, guardar el archivo move.py de github
+%% Luego dentro de robotino_ws/src/move_robotino/src, guardar el archivo move.py de github
 
 
 %% Comando para publicar con python, hacer primero lo siguiente:

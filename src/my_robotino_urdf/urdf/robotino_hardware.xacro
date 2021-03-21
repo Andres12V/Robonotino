@@ -2,8 +2,8 @@
 <robot>
   <property name="M_PI" value="3.14159"/>
   <property name="M_SCALE" value="0.01"/>
-  <property name="HOKUYO_RADIUS" value="0.02"/>
-  <property name="HOKUYO_LENGTH" value="0.07"/>
+  <property name="HOKUYO_RADIUS" value="0.0002"/>
+  <property name="HOKUYO_LENGTH" value="0.0007"/>
   <property name="KINECT_LENGTH" value="0.064"/>
   <property name="KINECT_WIDTH" value="0.121"/>
   <property name="KINECT_HEIGHT" value="0.0381"/>
@@ -81,7 +81,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}" />
         <geometry>
-          <mesh filename="package://my_robotino_urdf/meshes/RobotinoLaserScanner.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://my_robotino_urdf/meshes/RobotinoLaserScanner.dae" scale="0.001 0.001 0.001"/>
         </geometry>
       </visual>
 
