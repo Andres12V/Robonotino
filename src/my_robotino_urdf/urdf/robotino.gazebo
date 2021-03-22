@@ -22,7 +22,7 @@
     </sensor>
   </gazebo>
 
-   <gazebo reference="hokuyo_link">
+   <gazebo reference="laser_link">
     <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
@@ -32,8 +32,8 @@
           <horizontal>
             <samples>720</samples>
             <resolution>1</resolution>
-            <min_angle>-0.785398</min_angle>
-            <max_angle>0.785398</max_angle>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
           </horizontal>
         </scan>
         <range>
@@ -53,10 +53,267 @@
       </ray>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
         <topicName>/my_robotino_urdf/laser/scan</topicName>
-        <frameName>hokuyo_link</frameName>
+        <frameName>laser_link</frameName>
       </plugin>
     </sensor>
   </gazebo>
+
+   <gazebo reference="laser1_link">
+    <sensor type="ray" name="head_hokuyo_sensor1">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser1/scan</topicName>
+        <frameName>laser1_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser2_link">
+    <sensor type="ray" name="head_hokuyo_sensor2">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser2/scan</topicName>
+        <frameName>laser2_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser3_link">
+    <sensor type="ray" name="head_hokuyo_sensor3">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser3/scan</topicName>
+        <frameName>laser3_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser4_link">
+    <sensor type="ray" name="head_hokuyo_sensor4">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser4/scan</topicName>
+        <frameName>laser4_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser5_link">
+    <sensor type="ray" name="head_hokuyo_sensor5">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser5/scan</topicName>
+        <frameName>laser5_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser6_link">
+    <sensor type="ray" name="head_hokuyo_sensor6">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser6/scan</topicName>
+        <frameName>laser6_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser7_link">
+    <sensor type="ray" name="head_hokuyo_sensor7">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser7/scan</topicName>
+        <frameName>laser7_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+   <gazebo reference="laser8_link">
+    <sensor type="ray" name="head_hokuyo_sensor8">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.523599</min_angle>
+            <max_angle>0.523599</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.04</min>
+          <max>0.3</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/my_robotino_urdf/laser8/scan</topicName>
+        <frameName>laser8_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
 
     <gazebo>
       <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
@@ -68,7 +325,8 @@
       </plugin>
     </gazebo>
 
-    <gazebo reference="base_link">
+
+    <!--gazebo reference="base_link">
       <material>Gazebo/Grey</material>
       <gravity>true</gravity>
       <self_collide>false</self_collide>
@@ -84,7 +342,7 @@
           <bumperTopicName>base_bumper</bumperTopicName>
         </plugin>
       </sensor>
-    </gazebo>
+    </gazebo-->
 
 
 

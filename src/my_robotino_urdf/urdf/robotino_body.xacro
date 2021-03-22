@@ -62,5 +62,38 @@
     <laser name="laser" parent="base_link">
       <origin xyz="0.155 0 ${BASE_HEIGHT/2}" rpy="0 0 0"/>
     </laser>
+
+    <laser name="laser1" parent="base_link">
+      <origin xyz="0.11873 0.09963 ${BASE_HEIGHT/2}" rpy="0 0 ${M_PI/4.5}"/>
+    </laser>
+
+    <laser name="laser2" parent="base_link">
+      <origin xyz="0.11873 -0.099630 ${BASE_HEIGHT/2}" rpy="0 0 -${M_PI/4.5}"/>
+    </laser>
+
+    <laser name="laser3" parent="base_link">
+      <origin xyz="0.02691 0.15264 ${BASE_HEIGHT/2}" rpy="0 0 ${M_PI/2.25}"/>
+    </laser>
+
+    <laser name="laser4" parent="base_link">
+      <origin xyz="0.02691 -0.15264 ${BASE_HEIGHT/2}" rpy="0 0 -${M_PI/2.25}"/>
+    </laser>
+
+    <laser name="laser5" parent="base_link">
+      <origin xyz="-0.0775 0.13423 ${BASE_HEIGHT/2}" rpy="0 0 ${M_PI/1.5}"/>
+    </laser>
+
+    <laser name="laser6" parent="base_link">
+      <origin xyz="-0.0775 -0.13423 ${BASE_HEIGHT/2}" rpy="0 0 -${M_PI/1.5}"/>
+    </laser>
+
+    <laser name="laser7" parent="base_link">
+      <origin xyz="-0.14565 0.05301 ${BASE_HEIGHT/2}" rpy="0 0 ${M_PI/1.125}"/>
+    </laser>
+
+    <laser name="laser8" parent="base_link">
+      <origin xyz="-0.14565 -0.05301 ${BASE_HEIGHT/2}" rpy="0 0 -${M_PI/1.125}"/>
+    </laser>
+
   </macro>
 </robot>

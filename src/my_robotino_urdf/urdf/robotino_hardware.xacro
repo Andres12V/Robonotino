@@ -63,13 +63,13 @@
   
   <!-- LASER SCANNER -->
   <macro name="laser" params="parent name *origin">
-    <joint name="hokuyo_joint" type="fixed">
+    <joint name="${name}_joint" type="fixed">
       <insert_block name="origin" />
       <parent link="${parent}"/>
-      <child link="hokuyo_link" />
+      <child link="${name}_link" />
     </joint>
     
-    <link name="hokuyo_link">
+    <link name="${name}_link">
       <inertial>
         <mass value="0.00001" />
         <origin xyz="0 0 0" />
