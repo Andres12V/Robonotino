@@ -26,15 +26,15 @@ class Controller:
         msg1 = Odometry()
 
     def odom_callback(self, msg1):
-        pos_x = round(msg1.pose.pose.position.x)
-        pos_y = round(msg1.pose.pose.position.y)
+        pos_x = round(msg1.pose.pose.position.x, 1)
+        pos_y = round(msg1.pose.pose.position.y, 1)
         print('Pos x,y', pos_x, pos_y )
 
-        if aruco_num == 12:
-            xd = 3.0
+        if aruco_num == 25:
+            xd = 3
             yd = -3.0
             K_p = 0.3
-            K_i = 0.0003
+            #K_i = 0.0003
 
             global int_ex
             ex = xd-pos_x
@@ -77,15 +77,16 @@ class Controller:
 
             # FInd all the aruco markers in the image
             corners, ids, rejected=aruco.detectMarkers(image=gray, dictionary=aruco_dict, parameters=parameters)
-            aruco_image = aruco.drawDetectedMarkers(aruco_image, corners)
-            ret = aruco.estimatePoseSingleMarkers(corners, marker_size, camera_matrix, camera_distortion)
-            try:
-                rvec, tvec=ret[0][0,0,:], ret[1][0,0,:]
-                aruco.drawAxis(aruco_image, camera_matrix, camera_distortion, rvec, tvec, 10)
-                str_position= 'Marker Postion x=%4.0f  y=%4.0f  z=%4.0f'%(tvec[0]/10, tvec[1]/10, tvec[2]/10)
-                cv.putText(aruco_image, str_position, (0,100), font, 1, (0, 255, 0), 2, cv.LINE_AA)
-            except:
-                print('No ArUco Detected')
+            if ids != None and ids[0] == id_to_find:
+                aruco_image = aruco.drawDetectedMarkers(aruco_image, corners)
+                ret = aruco.estimatePoseSingleMarkers(corners, marker_size, camera_matrix, camera_distortion)
+                try:
+                    rvec, tvec=ret[0][0,0,:], ret[1][0,0,:]
+                    aruco.drawAxis(aruco_image, camera_matrix, camera_distortion, rvec, tvec, 10)
+                    str_position= 'Marker Postion x=%4.0f  y=%4.0f  z=%4.0f'%(tvec[0], tvec[1], tvec[2])
+                    cv.putText(aruco_image, str_position, (0,100), font, 1, (0, 255, 0), 2, cv.LINE_AA)
+                except:
+                    print('No ArUco Detected')
 
             # Display the frame
             cv.imshow('frame', aruco_image)
@@ -100,8 +101,6 @@ class Controller:
             rospy.signal_shutdown('shutdown')
             cv.destroyAllWindows()
         self.rate.sleep()
-
-
 
 if __name__ == '__main__':
     aruco_num = input('Enter ArUco Marker id: ')

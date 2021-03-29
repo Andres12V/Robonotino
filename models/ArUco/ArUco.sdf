@@ -8,16 +8,17 @@
             <collision name='collision'>
               <geometry>
                 <box>
-                  <size>.03 .03 .002</size>
+                  <size>0.15 0.002 0.15</size>
                 </box>
               </geometry>
             </collision>
 
             <visual name='visual'>
+	      <lighting>0</lighting>
               <geometry>
                 <mesh>
-            	  <uri>model://ArUco/meshes/mesh.dae</uri>
-		  <scale>0.03 0.03 0.002</scale>
+            	  <uri>model://ArUco/meshes/Aruco25.dae</uri>
+		  <scale>1 1 1</scale>
           	</mesh>
               </geometry>
             </visual>
