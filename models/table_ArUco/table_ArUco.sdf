@@ -12,10 +12,5 @@
       <pose>0 0.46 0.549 0 0 0</pose>
     </include>
 
-    <joint name="arm_gripper_joint" type="fixed">
-      <parent>mobile_base::chassis</parent>
-      <child>simple_gripper::riser</child>
-    </joint>
-
   </model>
 </sdf>
