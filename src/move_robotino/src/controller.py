@@ -19,10 +19,42 @@ import numpy as np
 import sys, time, math
 import imutils
 
+def isRotationMatrix(R):
+    Rt = np.transpose(R)
+    shouldBeIdentity = np.dot(Rt, R)
+    I = np.identity(3, dtype=R.dtype)
+    n = np.linalg.norm(I - shouldBeIdentity)
+    return n < 1e-6
+# Calculates rotation matrix to euler angles
+# The result is the same as MATLAB except the order
+# of the euler angles ( x and z are swapped ).
+def rotationMatrixToEulerAngles(R):
+    assert (isRotationMatrix(R))
 
+    sy = math.sqrt(R[0, 0] * R[0, 0] + R[1, 0] * R[1, 0])
+
+    singular = sy < 1e-6
+
+    if not singular:
+        x = math.atan2(R[2, 1], R[2, 2])
+        y = math.atan2(-R[2, 0], sy)
+        z = math.atan2(R[1, 0], R[0, 0])
+    else:
+        x = math.atan2(-R[1, 2], R[1, 1])
+        y = math.atan2(-R[2, 0], sy)
+        z = 0
+
+    return np.array([x, y, z])
 class Controller:
     def __init__(self):
         rospy.init_node('control')
+        # Camera Image
+        self.sub_image = rospy.Subscriber('/my_robotino_urdf/camera/image_raw', Image, self.callback)
+        self.bridge = CvBridge()
+        # Move
+        self.sub = rospy.Subscriber('/odom', Odometry, self.odom_callback)
+        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+        self.msg = Twist()
         # Infrared sensors
         self.sub_laser1 = rospy.Subscriber('/my_robotino_urdf/laser/scan', LaserScan, self.ls1_callback)
         self.sub_laser2 = rospy.Subscriber('/my_robotino_urdf/laser1/scan', LaserScan, self.ls2_callback)
@@ -33,17 +65,10 @@ class Controller:
         self.sub_laser7 = rospy.Subscriber('/my_robotino_urdf/laser6/scan', LaserScan, self.ls7_callback)
         self.sub_laser8 = rospy.Subscriber('/my_robotino_urdf/laser7/scan', LaserScan, self.ls8_callback)
         self.sub_laser9 = rospy.Subscriber('/my_robotino_urdf/laser8/scan', LaserScan, self.ls9_callback)
-        # Camera Image
-        self.sub_image = rospy.Subscriber('/my_robotino_urdf/camera/image_raw', Image, self.callback)
-        # Move
-        self.sub = rospy.Subscriber('/odom', Odometry, self.odom_callback)
-        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         # Position and orientation of the ArUco Marker
         self.pub_aruco_pose = rospy.Publisher('/aruco_pose', Pose, queue_size=10)
-
         self.rate = rospy.Rate(5000)
-        self.bridge = CvBridge()
-        self.msg = Twist()
+
         msg1 = Odometry()
         self.aruco_msg = Pose()
 
@@ -60,8 +85,8 @@ class Controller:
 
         if aruco_num == 12:
             Flag_r = Flag1*Flag2*Flag3*Flag4*Flag5*Flag6*Flag7*Flag8*Flag9
-            xd = 0.0
-            yd = -2.0
+            xd = -1.5
+            yd = -3.0
             K_p = 1  # For ts = 4 sec
 
             ex = xd-pos_x
@@ -107,24 +132,47 @@ class Controller:
 
             # FInd all the aruco markers in the image
             corners, ids, rejected=aruco.detectMarkers(image=gray, dictionary=aruco_dict, parameters=parameters)
-            if ids != None and ids[0] == id_to_find:
+            if ids is not None and ids[0] == id_to_find:
                 aruco_image = aruco.drawDetectedMarkers(aruco_image, corners)
                 ret = aruco.estimatePoseSingleMarkers(corners, marker_size, camera_matrix, camera_distortion)
                 try:
                     rvec, tvec=ret[0][0,0,:], ret[1][0,0,:]
                     aruco.drawAxis(aruco_image, camera_matrix, camera_distortion, rvec, tvec, 10)
                     str_position= 'Marker Postion x=%4.0f  y=%4.0f  z=%4.0f'%(tvec[0], tvec[1], tvec[2])
-                    cv.putText(aruco_image, str_position, (0,300), font, 1, (0, 255, 255), 1, cv.LINE_AA)
+                    cv.putText(aruco_image, str_position, (0,290), font, 1, (0, 255, 255), 1, cv.LINE_AA)
+                    #-- Obtain the rotation matrix tag->camera
+                    R_ct    = np.matrix(cv.Rodrigues(rvec)[0])
+                    R_tc    = R_ct.T
+                    #-- Get the attitude in terms of euler 321 (Needs to be flipped first)
+                    roll_marker, pitch_marker, yaw_marker = rotationMatrixToEulerAngles(R_flip*R_tc)
+                    #-- Print the marker's attitude respect to camera frame
+                    str_attitude = "Marker Attitude r=%4.0f  p=%4.0f  y=%4.0f"%(math.degrees(roll_marker),math.degrees(pitch_marker),
+                                        math.degrees(yaw_marker))
+                    cv.putText(aruco_image, str_attitude, (0, 315), font, 1, (0, 255, 255), 1, cv.LINE_AA)
+
+                    #-- Now get Position and attitude f the camera respect to the marker
+                    pos_camera = -R_tc*np.matrix(tvec).T
+
+                    str_position = "CAMERA Position x=%4.0f  y=%4.0f  z=%4.0f"%(pos_camera[0], pos_camera[1], pos_camera[2])
+                    cv.putText(aruco_image, str_position, (0, 340), font, 1, (255, 255, 0), 1, cv.LINE_AA)
+
+                    #-- Get the attitude of the camera respect to the frame
+                    roll_camera, pitch_camera, yaw_camera = rotationMatrixToEulerAngles(R_flip*R_tc)
+                    str_attitude = "CAMERA Attitude r=%4.0f  p=%4.0f  y=%4.0f"%(math.degrees(roll_camera),math.degrees(pitch_camera),
+                                        math.degrees(yaw_camera))
+                    cv.putText(aruco_image, str_attitude, (0, 365), font, 1, (255, 255, 0), 1, cv.LINE_AA)
+
                 except:
                     print('No ArUco Detected')
-
             # Display the frame
             cv.imshow('frame', aruco_image)
             #cv.imwrite('/home/andresvergara/images_aruco/pics/img15.jpg', aruco_image)
             try:
-                self.aruco_msg.position.x = tvec[0]
-                self.aruco_msg.position.y = tvec[1]
-                self.aruco_msg.position.z = tvec[2]
+                pos_ar_x = ( float(tvec[0])-float(pos_camera[0]) )/10.0
+                pos_ar_y = ( float(tvec[1])-float(pos_camera[1]) )/10.0
+                self.aruco_msg.position.x = pos_ar_x
+                self.aruco_msg.position.y = pos_ar_y
+                self.aruco_msg.position.z = 0.5
                 self.pub_aruco_pose.publish(self.aruco_msg)
             except:
                 pass
@@ -240,8 +288,6 @@ class Controller:
         else:
             Flag9 = 1
         self.pub.publish(self.msg)
-
-
 
 if __name__ == '__main__':
     aruco_num = input('Enter ArUco Marker id: ')

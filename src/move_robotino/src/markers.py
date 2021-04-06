@@ -13,37 +13,34 @@ import sys, time, math
 import imutils
 
 
-class MarkerBasics(object):
+class MarkerBasics():
     def __init__(self):
+        rospy.init_node('marker_basic_node', anonymous=True)
         self.sub_aruco_pose = rospy.Subscriber('/aruco_pose', Pose, self.callback)
         self.marker_objectlisher = rospy.Publisher('/marker_basic', Marker, queue_size=10)
         self.rate  = rospy.Rate(1000)
-        self.init_marker(index=0, z_val=0.5)
 
     def callback(self, msg):
+        # Get the pose of the aruco marker from the topic
         self.msg = Pose()
-        global y_aruco
-        global x_aruco
         x_aruco = msg.position.x
         y_aruco = msg.position.y
         z_aruco = msg.position.z
-        print(msg.position.x)
-        #self.rate.sleep()
 
-    def init_marker(self, index=0, z_val=0.5):
+        # Define the properties for the marker visualization in Rviz
         self.marker_object = Marker()
         self.marker_object.header.frame_id = 'base_link'
         self.marker_object.header.stamp = rospy.get_rostime()
         self.marker_object.ns = 'some_robot'
-        self.marker_object.id = index
+        self.marker_object.id = 0
         self.marker_object.type = Marker.CUBE
         self.marker_object.action = Marker.ADD
 
         my_point = Point()
-        my_point.z = z_val
-        my_point.y = 0.5
-        print(y_aruco)
-        my_point.x = 0.3
+        my_point.x = x_aruco
+        my_point.y = y_aruco
+        my_point.z = z_aruco
+
         self.marker_object.pose.position = my_point
 
         self.marker_object.pose.orientation.x = 0.0
@@ -60,20 +57,14 @@ class MarkerBasics(object):
         self.marker_object.color.b = 0.0
 
         self.marker_object.color.a = 1.0
+        # Publish the message to the topic
+        self.marker_objectlisher.publish(self.marker_object)
 
-        self.marker_object.lifetime = rospy.Duration(0)
-
-    def start(self):
-        while not rospy.is_shutdown():
-            self.marker_objectlisher.publish(self.marker_object)
-            self.rate.sleep()
 
 if __name__ == '__main__':
-    y_aruco = 0.0
-    z_aruco = 0.0
-    rospy.init_node('marker_basic_node', anonymous=True)
     markerbasics_object = MarkerBasics()
     try:
-        markerbasics_object.start()
-    except rospy.ROSInterruptException:
-        pass
+        if not rospy.is_shutdown():
+            rospy.spin()
+    except rospy.ROSInterruptException as e:
+        print(e)
